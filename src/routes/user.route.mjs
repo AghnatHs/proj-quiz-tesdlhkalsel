@@ -1,13 +1,13 @@
 import { Router } from "express";
-import passport from "passport";
 
 import UserController from "../controllers/user.controller.mjs";
+import authenticateHandler from "../middlewares/auth.middleware.mjs";
 
 const userRouter = Router();
 
 userRouter.get(
   "/api/user",
-  passport.authenticate("jwt", { session: false }),
+  authenticateHandler("jwt"),
   async (req, res, next) => UserController.get(req, res, next)
 );
 userRouter.post("/api/users", async (req, res, next) =>

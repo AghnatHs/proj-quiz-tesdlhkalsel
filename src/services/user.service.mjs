@@ -13,7 +13,7 @@ const UserService = {
   get: async (req) => {
     if (req.user) {
       const { username } = req.user;
-      const userFromDb = await UserQuery.getCustomer(username);
+      const userFromDb = await UserQuery.getUser(username);
       return userFromDb;
     } else {
       throw new AuthorizationError("Unauthorized. Please log in");
@@ -23,9 +23,10 @@ const UserService = {
     const newUser = validate(UserSchema.register, req.body);
 
     const isUsernameExist = await UserQuery.isUsernameExist(newUser.username);
-    if (isUsernameExist) throw new BadRequestError("Username already registered");
+    if (isUsernameExist)
+      throw new BadRequestError("Username already registered");
 
-    newUser.id = uuidv7();
+    newUser.id = "user-" + uuidv7();
     newUser.hashedPassword = await bcrypt.hash(newUser.password, 10);
 
     await UserQuery.registerUser(

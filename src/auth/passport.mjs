@@ -33,3 +33,32 @@ passport.use(
     }
   )
 );
+
+passport.use(
+  "jwt-admin",
+  new JWTStrategy(
+    {
+      jwtFromRequest: cookieExtractor,
+      secretOrKey: AppConfig.JWT.accessTokenSecret,
+    },
+    async (jwtPayload, done) => {
+      try {
+        const { exp } = jwtPayload;
+
+        if (!jwtPayload) return done(null, false);
+
+        if (Date.now() > exp * 1000) {
+          return done(null, false);
+        }
+
+        const user = await UserQuery.getUser(jwtPayload.username);
+        if (!user) return done(null, false);
+        if (!user.isAdmin) return done(null, false);
+
+        return done(null, jwtPayload);
+      } catch (error) {
+        return done(error, false);
+      }
+    }
+  )
+);

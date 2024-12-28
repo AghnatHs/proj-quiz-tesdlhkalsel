@@ -8,7 +8,7 @@ const UserQuery = {
     );
     return results[0].isExist;
   },
-  getCustomer: async function (username) {
+  getUser: async function (username) {
     const [results] = await db.query(
       `SELECT id, username, created_at as createdAt, updated_at as updatedAt, is_admin as isAdmin FROM users
        WHERE username = ?`,
@@ -16,7 +16,7 @@ const UserQuery = {
     );
     return results[0];
   },
-  getCustomerForAuth: async function (username) {
+  getUserForAuth: async function (username) {
     const [results] = await db.query(
       `SELECT id, username, password, is_admin as isAdmin FROM users
        WHERE username = ?`,

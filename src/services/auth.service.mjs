@@ -14,8 +14,8 @@ const AuthService = {
   login: async (req, res) => {
     const credentials = validate(AuthSchema.login, req.body);
 
-    const user = await UserQuery.getCustomerForAuth(credentials.username);
-    if (!user) throw new AuthenticationError("Failed login, user not found");
+    const user = await UserQuery.getUserForAuth(credentials.username);
+    if (!user) throw new AuthenticationError("Failed login, wrong credentials");
 
     const isPasswordMatch = await bcrypt.compare(
       credentials.password,

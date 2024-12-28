@@ -34,11 +34,12 @@ examSessionRouter.post(
   authenticateHandler("jwt"),
   async (req, res, next) => ExamSessionController.postAnswer(req, res, next)
 );
-// calculate score of session and set the score in db
+// finish the exam, calculate score of session and set the score in db
 examSessionRouter.post(
-  "/api/session/:session_id/score",
+  "/api/session/:session_id",
+  authenticateHandler("jwt"),
   async (req, res, next) =>
-    ExamSessionController.postScoreOfSession(req, res, next)
+    ExamSessionController.finishSession(req, res, next)
 );
 
 export default examSessionRouter;

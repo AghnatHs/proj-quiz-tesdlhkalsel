@@ -131,8 +131,19 @@ const ExamSessionService = {
 
     return result;
   },
-  postScoreOfSession: async (req) => {
+  finishSession: async (req) => {
     const { session_id } = req.params;
+    const { id: user_id } = req.user;
+    const currentSession = await ExamSessionQuery.getSession(
+      session_id,
+      user_id
+    );
+    if (!currentSession) throw new AuthorizationError("Invalid session");
+    await ExamSessionQuery.setSessionStatus(session_id, "finished");
+    await ExamSessionQuery.setSessionRemainingTime(
+      currentSession.id,
+      "00:00:00"
+    );
 
     const sessionAnswers = await ExamSessionQuery.getAnswersOfSession(
       session_id
@@ -151,7 +162,7 @@ const ExamSessionService = {
 
     await ExamSessionQuery.setSessionScore(session_id, score);
 
-    return { session_id: session_id, score: score };
+    return { session_id: session_id, status: "finished"};
   },
   postAnswer: async (req) => {
     const { answer } = validate(ExamSessionSchema.postAnswer, req.body);

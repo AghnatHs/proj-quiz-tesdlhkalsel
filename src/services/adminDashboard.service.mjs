@@ -31,10 +31,13 @@ const AdminDashboardService = {
       } else {
         remainingTimeFormatted = msToRemainingTime(remainingTime);
       }
-      await ExamSessionQuery.setSessionRemainingTime(
-        session.id,
-        remainingTimeFormatted
-      );
+
+      const sessionz = await ExamSessionQuery.getSessionDirect(session.id);
+      if (sessionz.status !== "finished")
+        await ExamSessionQuery.setSessionRemainingTime(
+          session.id,
+          remainingTimeFormatted
+        );
     }
 
     sessions = await AdminDashboardQuery.getSessionsReport();

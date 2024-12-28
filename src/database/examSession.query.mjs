@@ -55,6 +55,13 @@ const ExamSessionQuery = {
     );
     return results[0];
   },
+  getSessionDirect: async function (sessionId) {
+    const [results] = await db.query(
+      `SELECT * FROM sessions WHERE id = ?`,
+      [sessionId]
+    );
+    return results[0];
+  },
   getAnswersOfSession: async function (sessionId) {
     const [results] = await db.query(
       `

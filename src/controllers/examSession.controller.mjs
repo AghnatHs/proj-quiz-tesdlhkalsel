@@ -33,9 +33,9 @@ const ExamSessionController = {
       next(error);
     }
   },
-  postScoreOfSession: async (req, res, next) => {
+  finishSession: async (req, res, next) => {
     try {
-      const result = await ExamSessionService.postScoreOfSession(req);
+      const result = await ExamSessionService.finishSession(req);
       return res.status(201).json({ success: true, data: result });
     } catch (error) {
       next(error);

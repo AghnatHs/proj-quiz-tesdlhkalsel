@@ -9,6 +9,14 @@ const AdminDashboardController = {
       next(error);
     }
   },
+  createNewQuestion: async (req, res, next) => {
+    try {
+      const results = await AdminDashboardService.createNewQuestion(req);
+      return res.status(201).json({ success: true, data: results });
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 
 export default AdminDashboardController;

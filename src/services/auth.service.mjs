@@ -27,8 +27,6 @@ const AuthService = {
     const { id, username } = user;
     const accessToken = TokenService.generateAccessToken({ id, username });
     const refreshToken = TokenService.generateRefreshToken({ id, username });
-    console.log(accessToken);
-    console.log(refreshToken);
 
     res.cookie("accessToken", accessToken, {
       httpOnly: true,

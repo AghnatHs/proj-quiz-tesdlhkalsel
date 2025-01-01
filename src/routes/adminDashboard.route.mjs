@@ -1,14 +1,22 @@
 import { Router } from "express";
-import passport from "passport";
+
 import AdminDashboardController from "../controllers/adminDashboard.controller.mjs";
+import authenticateHandler from "../middlewares/auth.middleware.mjs";
 
 const adminDashboardRouter = Router();
 
 adminDashboardRouter.get(
   "/api/admin/sessions",
-  passport.authenticate("jwt-admin", { session: false }),
+  authenticateHandler("jwt-admin"),
   async (req, res, next) =>
     AdminDashboardController.getOrRefreshSessions(req, res, next)
+);
+
+adminDashboardRouter.post(
+  "/api/admin/question",
+  authenticateHandler("jwt-admin"),
+  async (req, res, next) =>
+    AdminDashboardController.createNewQuestion(req, res, next)
 );
 
 export default adminDashboardRouter;

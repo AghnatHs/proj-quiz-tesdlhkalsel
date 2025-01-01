@@ -1,5 +1,6 @@
 import "dotenv/config";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import express from "express";
 import passport from "passport";
 
@@ -14,6 +15,11 @@ import "./auth/passport.mjs";
 
 const app = express();
 app.use(express.json());
+const corsOptions = {
+  origin: AppConfig.Server.baseFrontendUrl,
+  credentials: true,
+};
+app.use(cors(corsOptions));
 app.use(cookieParser(AppConfig.Cookie.secret));
 app.use(passport.initialize());
 app.use(adminDashboardRouter);

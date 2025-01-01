@@ -7,9 +7,9 @@ const examSessionRouter = Router();
 
 examSessionRouter.post(
   "/api/session/password",
-  authenticateHandler("jwt"),
+  authenticateHandler("jwt-admin"),
   async (req, res, next) =>
-    ExamSessionController.changeExamPassowrd(req, res, next)
+    ExamSessionController.changeExamPassword(req, res, next)
 );
 
 examSessionRouter.post(

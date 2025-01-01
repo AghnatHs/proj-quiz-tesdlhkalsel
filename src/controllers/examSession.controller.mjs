@@ -1,7 +1,7 @@
 import ExamSessionService from "../services/examSession.service.mjs";
 
 const ExamSessionController = {
-  changeExamPassowrd: async (req, res, next) => {
+  changeExamPassword: async (req, res, next) => {
     try {
       const result = await ExamSessionService.changeExamPassword(req);
       return res.status(200).json({ success: true, data: result });

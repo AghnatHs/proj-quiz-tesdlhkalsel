@@ -1,6 +1,8 @@
 import AdminDashboardQuery from "../database/adminDashboard.query.mjs";
 import ExamSessionQuery from "../database/examSession.query.mjs";
 import { msToRemainingTime } from "../utils/utils.mjs";
+import AdminDashboardSchema from "../validators/adminDashboard.schema.mjs";
+import validate from "../validators/validator.mjs";
 
 const AdminDashboardService = {
   getOrRefreshSessions: async (req) => {
@@ -42,6 +44,16 @@ const AdminDashboardService = {
 
     sessions = await AdminDashboardQuery.getSessionsReport();
     return sessions;
+  },
+  createNewQuestion: async (req) => {
+    const newQuestion = validate(
+      AdminDashboardSchema.createNewQuestion,
+      req.body
+    );
+
+    await AdminDashboardQuery.createNewQuestion(newQuestion);
+
+    return newQuestion;
   },
 };
 

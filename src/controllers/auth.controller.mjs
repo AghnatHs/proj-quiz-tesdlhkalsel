@@ -1,9 +1,17 @@
 import AuthService from "../services/auth.service.mjs";
 
 const AuthController = {
-  login: async (req, res, next) => {
+  loginAdmin: async (req, res, next) => {
     try {
-      const result = await AuthService.login(req, res);
+      const result = await AuthService.loginAdmin(req, res);
+      return res.status(200).json({ success: true, data: result });
+    } catch (error) {
+      next(error);
+    }
+  },
+  loginUser: async (req, res, next) => {
+    try {
+      const result = await AuthService.loginUser(req, res);
       return res.status(200).json({ success: true, data: result });
     } catch (error) {
       next(error);

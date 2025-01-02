@@ -118,9 +118,7 @@ const ExamSessionService = {
     if (result.image_blob.length > 0) {
       try {
         const buffer = Buffer.from(result.image_blob);
-        const base64Image = `data:image/jpeg;base64,${buffer.toString(
-          "base64"
-        )}`;
+        const base64Image = `${buffer.toString()}`;
         result.image_blob = base64Image;
       } catch (error) {
         console.log(error);
@@ -162,7 +160,7 @@ const ExamSessionService = {
 
     await ExamSessionQuery.setSessionScore(session_id, score);
 
-    return { session_id: session_id, status: "finished"};
+    return { session_id: session_id, status: "finished" };
   },
   postAnswer: async (req) => {
     const { answer } = validate(ExamSessionSchema.postAnswer, req.body);

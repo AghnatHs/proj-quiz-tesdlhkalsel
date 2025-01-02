@@ -20,8 +20,11 @@ authRouter.get(
   }
 );
 
-authRouter.post("/api/auth/login", async (req, res, next) =>
-  AuthController.login(req, res, next)
+authRouter.post("/api/auth/user/login", async (req, res, next) =>
+  AuthController.loginUser(req, res, next)
+);
+authRouter.post("/api/auth/admin/login", async (req, res, next) =>
+  AuthController.loginAdmin(req, res, next)
 );
 authRouter.post("/api/auth/refresh", async (req, res, next) =>
   AuthController.refresh(req, res, next)

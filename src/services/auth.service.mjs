@@ -11,11 +11,47 @@ import TokenService from "./token.service.mjs";
 import AppConfig from "../configs/app.config.mjs";
 
 const AuthService = {
-  login: async (req, res) => {
+  loginAdmin: async (req, res) => {
     const credentials = validate(AuthSchema.login, req.body);
 
     const user = await UserQuery.getUserForAuth(credentials.username);
     if (!user) throw new AuthenticationError("Failed login, wrong credentials");
+    if (user.isAdmin === 0)
+      throw new AuthenticationError("Failed login, only admin");
+
+    const isPasswordMatch = await bcrypt.compare(
+      credentials.password,
+      user.password
+    );
+    if (!isPasswordMatch)
+      throw new AuthenticationError("Failed login, wrong credentials");
+
+    const { id, username } = user;
+    const accessToken = TokenService.generateAccessToken({ id, username });
+    const refreshToken = TokenService.generateRefreshToken({ id, username });
+
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      signed: true,
+      secure: AppConfig.Server.env === "production",
+    });
+
+    res.cookie("refreshToken", refreshToken, {
+      maxAge: AppConfig.JWT.refreshTokenMaxAge * 1000,
+      httpOnly: true,
+      signed: true,
+      secure: AppConfig.Server.env === "production",
+    });
+
+    return "Login successfull";
+  },
+  loginUser: async (req, res) => {
+    const credentials = validate(AuthSchema.login, req.body);
+
+    const user = await UserQuery.getUserForAuth(credentials.username);
+    if (!user) throw new AuthenticationError("Failed login, wrong credentials");
+    if (user.isAdmin === 1)
+      throw new AuthenticationError("Failed login, only user non-admin");
 
     const isPasswordMatch = await bcrypt.compare(
       credentials.password,

@@ -74,7 +74,7 @@ const ExamSessionService = {
       lastEducation: last_education,
       fromEducation: from_education,
       startTimestamp: timestamp.toISOString(),
-      endTimestamp: addMinutes(timestamp, 120).toISOString(),
+      endTimestamp: addMinutes(timestamp, 100).toISOString(),
     };
 
     const { password: examPasswordFromDb } =
@@ -160,6 +160,8 @@ const ExamSessionService = {
 
     await ExamSessionQuery.setSessionScore(session_id, score);
 
+    await ExamSessionQuery.deleteQuestionAfterFinish(session_id);
+    
     return { session_id: session_id, status: "finished" };
   },
   postAnswer: async (req) => {

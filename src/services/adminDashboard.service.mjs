@@ -30,7 +30,7 @@ const AdminDashboardService = {
 
       let remainingTimeFormatted;
       if (remainingTime < 0) {
-        remainingTimeFormatted = "00:00";
+        remainingTimeFormatted = "00:00:00";
         await ExamSessionQuery.setSessionStatus(session.id, "Finished");
         await ExamSessionQuery.deleteQuestionAfterFinish(session.id);
       } else {

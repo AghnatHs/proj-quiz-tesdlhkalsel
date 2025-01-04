@@ -22,10 +22,7 @@ const ExamSessionSchema = {
     }),
   }),
   postAnswer: Joi.object({
-    answer: Joi.string().required().messages({
-      "string.empty": "Valid answer is required",
-      "any.required": "Valid answer is required",
-    }),
+    answer: Joi.string().allow(null),
   }),
 };
 

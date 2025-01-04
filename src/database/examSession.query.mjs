@@ -44,6 +44,13 @@ const ExamSessionQuery = {
     );
     return results;
   },
+  deleteQuestionAfterFinish: async function (sessionId) {
+    const [results] = await db.query(
+      `DELETE FROM session_questions_rel WHERE session_id = ?`,
+      [sessionId]
+    );
+    return results[0];
+  },
   getExamPassword: async function () {
     const [results] = await db.query(`SELECT * FROM exam_password`);
     return results[0];
@@ -56,10 +63,9 @@ const ExamSessionQuery = {
     return results[0];
   },
   getSessionDirect: async function (sessionId) {
-    const [results] = await db.query(
-      `SELECT * FROM sessions WHERE id = ?`,
-      [sessionId]
-    );
+    const [results] = await db.query(`SELECT * FROM sessions WHERE id = ?`, [
+      sessionId,
+    ]);
     return results[0];
   },
   getAnswersOfSession: async function (sessionId) {
@@ -117,7 +123,7 @@ const ExamSessionQuery = {
       "Logika Angka",
       "Analogi Verbal",
       "Tes Antonim dan Sinonim",
-      "Tes Gambar dan Inggris"
+      "Tes Gambar dan Inggris",
     ];
 
     for (const subject of subjects) {

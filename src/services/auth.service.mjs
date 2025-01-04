@@ -31,17 +31,20 @@ const AuthService = {
     console.log(refreshToken);
 
     res.cookie("accessToken", accessToken, {
-      httpOnly: true,
-      signed: true,
-      secure: AppConfig.Server.env === "production",
-    });
+      httpOnly: true,  
+      signed: true,    
+      secure: false,  
 
+    });
+    
     res.cookie("refreshToken", refreshToken, {
       maxAge: AppConfig.JWT.refreshTokenMaxAge * 1000,
       httpOnly: true,
       signed: true,
-      secure: AppConfig.Server.env === "production",
+      secure: false,
+
     });
+    
 
     return "Login successfull";
   },
@@ -69,15 +72,17 @@ const AuthService = {
         username,
       });
       res.cookie("accessToken", newAccessToken, {
-        httpOnly: true,
-        signed: true,
-        secure: AppConfig.Server.env === "production",
+        httpOnly: true,  
+        signed: true,    
+        secure: process.env.NODE_ENV === "production",  
+
       });
+      
       res.cookie("refreshToken", newRefreshToken, {
         maxAge: AppConfig.JWT.refreshTokenMaxAge * 1000,
         httpOnly: true,
         signed: true,
-        secure: AppConfig.Server.env === "production",
+        secure: process.env.NODE_ENV === "production",
       });
 
       return "Token refreshed successfully";

@@ -74,7 +74,7 @@ const ExamSessionService = {
       lastEducation: last_education,
       fromEducation: from_education,
       startTimestamp: timestamp.toISOString(),
-      endTimestamp: addMinutes(timestamp, 120).toISOString(),
+      endTimestamp: addMinutes(timestamp, 100).toISOString(),
     };
 
     const { password: examPasswordFromDb } =
@@ -155,7 +155,7 @@ const ExamSessionService = {
     for (const question of sessionAnswers) {
       const { selected_option, option_correct } = question;
 
-      if (selected_option === null) score = score;
+      if (selected_option === null || selected_option === "" || selected_option === "Empty String") score = score;
       else if (selected_option === option_correct) score = score + 4;
       else if (selected_option !== option_correct) score = score - 1;
     }

@@ -5,9 +5,10 @@ import UserQuery from "../database/user.query.mjs";
 
 const cookieExtractor = (req) => {
   let jwt = null;
-
+  
   if (req && req.signedCookies) {
     jwt = req.signedCookies.accessToken;
+
   }
 
   return jwt;

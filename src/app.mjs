@@ -9,10 +9,15 @@ import adminDashboardRouter from "./routes/adminDashboard.route.mjs";
 import authRouter from "./routes/auth.route.mjs";
 import examSessionRouter from "./routes/examSession.route.mjs";
 import userRouter from "./routes/user.route.mjs";
-
+import cors from "cors"
 import "./auth/passport.mjs";
 
 const app = express();
+const corsOptions = {
+    origin: AppConfig.Server.baseFrontendUrl,
+    credentials: true,
+  };
+app.use(cors(corsOptions));  
 app.use(express.json());
 app.use(cookieParser(AppConfig.Cookie.secret));
 app.use(passport.initialize());
@@ -21,5 +26,6 @@ app.use(authRouter);
 app.use(userRouter);
 app.use(examSessionRouter);
 app.use(errorHandler);
+
 
 export default app;

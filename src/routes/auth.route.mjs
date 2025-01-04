@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import AuthController from "../controllers/auth.controller.mjs";
 import authenticateHandler from "../middlewares/auth.middleware.mjs";
+import rateLimiter from "../utils/rateLimiter.utils.mjs";
 
 const authRouter = Router();
 
@@ -20,11 +21,15 @@ authRouter.get(
   }
 );
 
-authRouter.post("/api/auth/user/login", async (req, res, next) =>
-  AuthController.loginUser(req, res, next)
+authRouter.post(
+  "/api/auth/user/login",
+  rateLimiter(100, 15),
+  async (req, res, next) => AuthController.loginUser(req, res, next)
 );
-authRouter.post("/api/auth/admin/login", async (req, res, next) =>
-  AuthController.loginAdmin(req, res, next)
+authRouter.post(
+  "/api/auth/admin/login",
+  rateLimiter(100, 15),
+  async (req, res, next) => AuthController.loginAdmin(req, res, next)
 );
 authRouter.post("/api/auth/refresh", async (req, res, next) =>
   AuthController.refresh(req, res, next)

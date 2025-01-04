@@ -48,6 +48,10 @@ const AdminDashboardService = {
     sessions = await AdminDashboardQuery.getSessionsReport();
     return sessions;
   },
+  getAllQuestions: async (req) => {
+    const questions = await AdminDashboardQuery.getAllQuestions();
+    return questions;
+  },
   createNewQuestion: async (req) => {
     const newQuestion = validate(
       AdminDashboardSchema.createNewQuestion,
@@ -57,6 +61,13 @@ const AdminDashboardService = {
     await AdminDashboardQuery.createNewQuestion(newQuestion);
 
     return newQuestion;
+  },
+  deleteQuestionById: async (req) => {
+    const { id } = req.params;
+
+    const result = await AdminDashboardQuery.deleteQuestionById(id);
+
+    return result.affectedRows ? "Successfully delete" : "Nothing changed";
   },
 };
 

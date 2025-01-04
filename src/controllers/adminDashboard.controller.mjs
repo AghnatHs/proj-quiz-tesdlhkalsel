@@ -9,9 +9,25 @@ const AdminDashboardController = {
       next(error);
     }
   },
+  getAllQuestions: async (req, res, next) => {
+    try {
+      const results = await AdminDashboardService.getAllQuestions(req);
+      return res.status(200).json({ success: true, data: results });
+    } catch (error) {
+      next(error);
+    }
+  },
   createNewQuestion: async (req, res, next) => {
     try {
       const results = await AdminDashboardService.createNewQuestion(req);
+      return res.status(201).json({ success: true, data: results });
+    } catch (error) {
+      next(error);
+    }
+  },
+  deleteQuestionById: async (req, res, next) => {
+    try {
+      const results = await AdminDashboardService.deleteQuestionById(req);
       return res.status(201).json({ success: true, data: results });
     } catch (error) {
       next(error);

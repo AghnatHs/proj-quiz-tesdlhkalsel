@@ -12,11 +12,25 @@ adminDashboardRouter.get(
     AdminDashboardController.getOrRefreshSessions(req, res, next)
 );
 
+adminDashboardRouter.get(
+  "/api/admin/question",
+  authenticateHandler("jwt-admin"),
+  async (req, res, next) =>
+    AdminDashboardController.getAllQuestions(req, res, next)
+);
+
 adminDashboardRouter.post(
   "/api/admin/question",
   authenticateHandler("jwt-admin"),
   async (req, res, next) =>
     AdminDashboardController.createNewQuestion(req, res, next)
+);
+
+adminDashboardRouter.delete(
+  "/api/admin/question/:id",
+  authenticateHandler("jwt-admin"),
+  async (req, res, next) =>
+    AdminDashboardController.deleteQuestionById(req, res, next)
 );
 
 export default adminDashboardRouter;
